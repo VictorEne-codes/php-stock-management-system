@@ -1,0 +1,43 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    margin-top: 70px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+p{
+    margin-left: 4px;
+}
+h2{
+    margin-bottom: 10px;
+    letter-spacing: 5px;
+}
+.form{
+    height: 30px;
+   
+}
+input{
+    width: 400px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(245, 234, 245);
+    border-radius: 7px;
+}
+.container p{
+    padding: 10px;
+
+}
+h4{
+    width: 406px;
+    padding: 10px;
+    background-color: rgb(202, 87, 202);
+    color: blueviolet;
+    text-align: center;
+}
+h4 .p{
+    margin-left: 50px;
+}
