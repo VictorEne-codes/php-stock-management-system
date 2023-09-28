@@ -70,6 +70,7 @@ table, th, td{
 <?php 
     require_once "nav.php" 
     ?>
+<<<<<<< HEAD
     <div class="right-side">
         <h1>Add New Product</h1>
         <div class="form">
@@ -113,5 +114,8 @@ table, th, td{
             </table>
         </div>
     </div>
+=======
+    
+>>>>>>> origin
 </body>
 </html>

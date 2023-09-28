@@ -25,6 +25,7 @@ input{
     background-color: rgb(230, 230, 245);
     color: #000;
 }
+<<<<<<< HEAD
 button{
     width: 250px;
     border-radius: 5px;
@@ -46,4 +47,22 @@ button{
     background-color: rgb(20, 20, 78);
     padding: 5px;
     border-radius: 10px;
+=======
+.form h4{
+    width: 453px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(20, 20, 78);
+    text-align: center;
+}
+.form p{
+    color: black;
+}
+.phone{
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+
+>>>>>>> origin
 }
