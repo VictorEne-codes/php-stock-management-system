@@ -32,7 +32,7 @@ $result = mysqli_query($conn, $query);
     padding: 0px 20px;
 }
 input{
-    width: 300px;
+    width: 250px;
     padding: 10px;
     font-size: 20px;
 }
@@ -75,6 +75,12 @@ table, th, td{
             if (isset($_GET['success']) && $_GET['success'] == 1) {
                 echo '<script>alert("Product added successfully")</script>';
             }
+            if (isset($_GET['editsuccess']) && $_GET['editsuccess'] == 1) {
+                echo '<script>alert("Product edited successfully")</script>';
+            }
+            if (isset($_GET['delete']) && $_GET['delete'] == 1) {
+                echo '<script>alert("Product deleted successfully")</script>';
+            }
             ?>
                 <input type="text" name="product_name" id="productname" placeholder="Product Name">
                 <input type="text" name="product_quantity" id="productquantity" placeholder="Product Quantity">
@@ -94,14 +100,14 @@ table, th, td{
                     <tr>
                         <?php
                             while($row = mysqli_fetch_assoc($result))
-                            {   
+                            {  $id = $row['product_id'];
                     ?>
-                    <td> <?php echo $row['id']; ?> </td>
+                    <td> <?php echo $id; ?> </td>
                     <td> <?php echo $row['product_name']; ?> </td>
                     <td> <?php echo $row['product_quantity']; ?> </td>
                     <td> <?php echo $row['product_amount']; ?> </td>
-                    <td><a href="#">Edit</a></td>
-                    <td><a href="#">Delete</a></td>
+                    <td><a href="edit.php?editid=<?php echo $id; ?>">Edit</a></td>
+                    <td><a href="delete.php?deleteid=<?php echo $id; ?>">Delete</a></td>
                     </tr>
                     <?php
                      }

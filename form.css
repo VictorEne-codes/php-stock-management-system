@@ -9,7 +9,6 @@
     flex-direction: column;
     align-items: center;
 }
-<<<<<<< HEAD
 .container p{
     margin-bottom: 40px;
     font-size: 1.5rem;
@@ -19,36 +18,19 @@
     font-size: 3rem;
 }
 
-=======
-p{
-    margin-left: 4px;
-}
-h2{
-    margin-bottom: 10px;
-    letter-spacing: 5px;
-}
-.form{
-    height: 30px;
-   
-}
->>>>>>> origin
 input{
     width: 400px;
     padding: 10px;
     margin-bottom: 10px;
     background-color: rgb(245, 234, 245);
-<<<<<<< HEAD
     color: black;
     font-size: 1rem;
-=======
->>>>>>> origin
     border-radius: 7px;
 }
 .container p{
     padding: 10px;
 
 }
-<<<<<<< HEAD
 button{
     width: 200px;
     padding: 10px;
@@ -71,15 +53,3 @@ button{
     padding: 5px;
     border-radius: 10px;
 }
-=======
-h4{
-    width: 406px;
-    padding: 10px;
-    background-color: rgb(202, 87, 202);
-    color: blueviolet;
-    text-align: center;
-}
-h4 .p{
-    margin-left: 50px;
-}
->>>>>>> origin

@@ -1,8 +1,8 @@
 <?php
 require_once "process.php";
-// require_once "products.php";
 $query = "SELECT * from products";
 $result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -64,12 +64,12 @@ button{
             }
             ?>
                 <!-- <label for="">Product Name</label><br><br> -->
-                <select name="sell_products" id="sell_products">
-                <?php
-                            while($row = mysqli_fetch_assoc($result))
-                            {   
+                <select name="sell_products" id="sell_products" >
+                    <?php
+                    while($row = mysqli_fetch_assoc($result)){
+
                     ?>
-                    <option value=""> <?php echo $row['product_name']; ?> 
+                <option value=""> <?php echo $row['product_name']; ?> 
                         
                     </option>
                     <?php
@@ -86,5 +86,14 @@ button{
             </form>
         </div>
     </div>
+    <script>
+// JavaScript function to calculate the total amount based on quantity and product price
+function calculateAmount() {
+    var quantity = document.getElementById("productquantity").value;
+    var product_price = <?php echo $row['product_price']; ?>;
+    var total_amount = quantity * product_price;
+    document.getElementById("productamount").value = total_amount;
+}
+</script>
 </body>
 </html>

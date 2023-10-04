@@ -122,16 +122,34 @@ if (!$conn) {
         VALUES ('$product_name', '$product_quantity', '$product_amount')";
         if ($conn->query($query) === TRUE) {
             $msg_id = $conn->insert_id;
-            // echo "<p>Login Successful</p>";
-            // echo "<h4>We will get back to you asap</h4>";
-            // redirect to form
-            // header('location: products.php');
             header("Location: products.php?success=1");
         } else {
             echo "Error: <br/>".$conn->error;
         }
-     }
-   
+    }
+
+    
+if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+      } 
+      if (isset($_POST['edit'])){
+        $id = $_GET['editid'];
+        $product_name = $_POST['product_name'];
+        $product_quantity = $_POST['product_quantity'];
+        $product_amount = $_POST['product_amount'];
+        $product_id = $_POST['product_id'];
+        
+        $update = "UPDATE products SET product_name = '$product_name', product_quantity = '$product_quantity', product_amount = '$product_amount' WHERE product_id = '$product_id' LIMIT 1";
+
+    if (mysqli_query($conn, $update)) {
+        $msg_id = mysqli_insert_id($conn);
+        header("Location: products.php?editsuccess=1");
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+    }
+
+
 if (isset($_POST['sell'])){
 
 
@@ -141,19 +159,26 @@ global $product_name;
 
 $sell_products = $_POST['sell_products'];
 $sell_product_quantity = $_POST['sell_product_quantity'];
+//  Check if the product exists in the database
+    $query = "SELECT * FROM products WHERE product_name = '$product_name'";
+    $result = mysqli_query($conn, $query);
 
+    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+    $available_quantity = $row['product_quantity'];
+    $new_quantity = $available_quantity - $sell_product_quantity;
 // convert amount to float
 // $amount = floatval($amount);
-// check the balance
-if ($products['product_quantity'] > $sell_product_quantity) {
-    // $message = "Insufficient fund";
-    // header('location: /transfer.php?err=' . $message);
-    echo "cannot sell";
-} else {
-    // remove amount from user balance
-    $bal = $products['product_quantity'] - $sell_product_quantity;
+// // check the balance
+// if ($products['product_quantity'] > $sell_product_quantity) {
+//     // $message = "Insufficient fund";
+//     // header('location: /transfer.php?err=' . $message);
+//     echo "cannot sell";
+// } else {
+//     // remove amount from user balance
+//     $bal = $products['product_quantity'] - $sell_product_quantity;
     // update user balance
-    $query = "UPDATE products set product_quantity = ? WHERE id = ? LIMIT 1";
+    $query = "UPDATE products set product_quantity = $new_quantity WHERE id = ? LIMIT 1";
     echo "Product sold successfully!";
     try {
         $stmt = $conn->prepare($query);
@@ -161,13 +186,18 @@ if ($products['product_quantity'] > $sell_product_quantity) {
     } catch (Exception $e) {
         echo "We are unable to process your request at the moment, please try again later <br/>" . $e;
     }
-    // if ($conn->query($query) === TRUE) {
-    //     
-    // } else{
-    // // } else {
-    // //     echo "Error: " . $query . "<br>" . $conn->error;
-    // // } else {
-    // echo "Error updating product stock: " . $conn->error;
+    if (mysqli_query($conn, $query)) {
+        // Insert the sale record into the sales table (you need to create this table)
+        $insert_query = "INSERT INTO sales (product_name, product_quantity, product_amount) VALUES ('$product_name', $quantity, $amount)";
+    if (mysqli_query($conn, $insert_query)) {
+        echo "success";
+        // header("Location: your_success_page.php?success=1");
+        exit();
+    } else {
+        echo "failed";
+        // echo '<script>alert("Error inserting sale record: ' . mysqli_error($conn) . '")</script>';
+    }
 }
 
 }
+}?>
