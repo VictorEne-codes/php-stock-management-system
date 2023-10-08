@@ -1,8 +1,36 @@
 <?php
 require_once "process.php";
-$query = "SELECT * from products";
+$id = $_GET['salesid'];
+$query = "SELECT * from products WHERE product_id = $id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
+if (isset($_POST['sales'])){
+    $id = $_GET['salesid'];
+    $product_name = $_POST['product_name'];
+    $product_quantity = $_POST['product_quantity'];
+    $product_amount = $_POST['product_amount'];
+    $product_id = $_POST['product_id'];
+    //  Check if the product exists in the database
+$query = "SELECT * FROM products WHERE product_id = $id";
+$result = mysqli_query($conn, $query);
+if (mysqli_num_rows($result) == 1) {
+    $row = mysqli_fetch_assoc($result);
+$available_quantity = $row['product_quantity'];
+$new_quantity = $available_quantity - $product_quantity;
+$query = "UPDATE products SET product_quantity = $new_quantity WHERE product_id = $id LIMIT 1";
+if (mysqli_query($conn, $query)) {
+echo "Product sold successfully!";
+}
+$insert_query = "INSERT INTO sales (product_name, product_quantity, product_amount) VALUES ('$product_name', $product_quantity, $product_amount)";
+if (mysqli_query($conn, $insert_query)) {
+    $msg_id = mysqli_insert_id($conn);
+    echo "sold sucessfully";
+    // header("Location: products.php?editsuccess=1");
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
+}
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +76,10 @@ button{
     color: white;
     border-radius: 10px;
 }
+button a{
+    text-decoration: none;
+    color: white;
+}
 </style>
 <body>
 <?php 
@@ -55,44 +87,28 @@ button{
     ?>
     <div class="right-side">
         <h1>Make Sales</h1>
-        <div class="form">
-            <form action="process.php" method="POST">
-            <?php
-            // Check if product is added successful
-            if (isset($_GET['success']) && $_GET['success'] == 1) {
-                echo '<script>alert("Product Sold successfully")</script>';
-            }
-            ?>
-                <!-- <label for="">Product Name</label><br><br> -->
-                <select name="sell_products" id="sell_products" >
-                    <?php
-                    while($row = mysqli_fetch_assoc($result)){
-
-                    ?>
-                <option value=""> <?php echo $row['product_name']; ?> 
-                        
-                    </option>
-                    <?php
-                     }
-                    ?>
-
-                </select><br><br>
-                <input type="number" name="sell_product_quantity" id="productquantity" placeholder="Product Quantity">
-                <br><br>
-                <input type="text" name="sell_product_amount" id="productamount" placeholder="Product Amount">
-                <input type="hidden" name="sell">
-                <br><br>
+        <form action="" method="POST">
+                <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
+                <input type="text" name="product_name" id="productname" value="<?php echo $row['product_name']; ?>">
+                <input type="text" name="product_quantity" id="productquantity" value="" placeholder="Enter Quantity" oninput="calculateAmount()">
+                <input type="text" name="product_amount" id="productamount" value="<?php echo $row['product_amount']; ?>" placeholder="Enter Amount" readonly>
+                <input type="hidden" name="sales">
                 <button type="submit">Sell Product</button>
-            </form>
+        </form>
+            <?php  ?>
         </div>
     </div>
     <script>
-// JavaScript function to calculate the total amount based on quantity and product price
 function calculateAmount() {
-    var quantity = document.getElementById("productquantity").value;
-    var product_price = <?php echo $row['product_price']; ?>;
-    var total_amount = quantity * product_price;
-    document.getElementById("productamount").value = total_amount;
+    // Get the quantity and price from the form
+    var quantity = document.getElementById('productquantity').value;
+    var price = <?php echo $row['product_amount']; ?>; // Replace with the actual price from your database
+
+    // Calculate the amount
+    var amount = quantity * price;
+
+    // Update the amount input field
+    document.getElementById('productamount').value = amount;
 }
 </script>
 </body>

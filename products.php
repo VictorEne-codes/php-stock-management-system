@@ -46,7 +46,7 @@ button{
     border-radius: 10px;
 }
 .table{
-    margin: 100px;
+    margin: 100px 0px;
     font-size: 1.5rem;
 }
 table, th, td{
@@ -60,6 +60,13 @@ table, th, td{
     background-color: rgb(39, 22, 3);
     color: white;
     border-radius: 10px;
+}
+.search input{
+    margin-top: 50px;
+    margin-left: 30px
+}
+.search button{
+    margin-left: 30px;
 }
 </style>
 <body>
@@ -78,6 +85,9 @@ table, th, td{
             if (isset($_GET['editsuccess']) && $_GET['editsuccess'] == 1) {
                 echo '<script>alert("Product edited successfully")</script>';
             }
+            if (isset($_GET['salessuccess']) && $_GET['salessuccess'] == 1) {
+                echo '<script>alert("Product sold successfully")</script>';
+            }
             if (isset($_GET['delete']) && $_GET['delete'] == 1) {
                 echo '<script>alert("Product deleted successfully")</script>';
             }
@@ -89,12 +99,21 @@ table, th, td{
                 <button type="submit">Add Product</button>
             </form>
         </div>
+        <div class="search">
+        <form method="post" action="process.php">
+                <!-- <label for="product_name">Product Name:</label> -->
+                <input type="text" name="product_name" id="product_name"><br>
+                <input type="hidden" name="search">
+                <button type="submit">Search</button>
+            </form>
+        </div>
         <div class="table">
             <table>
                     <th>ID</td>
                     <th>Product Name</th>
                     <th>Product Quantity</th>
                     <th>Product Amount</th>
+                    <th>Sell</th>
                     <th>Edit</th>
                     <th>Delete</th>
                     <tr>
@@ -106,6 +125,7 @@ table, th, td{
                     <td> <?php echo $row['product_name']; ?> </td>
                     <td> <?php echo $row['product_quantity']; ?> </td>
                     <td> <?php echo $row['product_amount']; ?> </td>
+                    <td><a href="sales.php?salesid=<?php echo $id; ?>">Sell</a></td>
                     <td><a href="edit.php?editid=<?php echo $id; ?>">Edit</a></td>
                     <td><a href="delete.php?deleteid=<?php echo $id; ?>">Delete</a></td>
                     </tr>

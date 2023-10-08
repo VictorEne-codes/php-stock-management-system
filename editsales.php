@@ -2,7 +2,7 @@
 
 require_once "process.php";
 $id = $_GET['editid'];
-$query = "SELECT * from products WHERE product_id = $id";
+$query = "SELECT * from sales WHERE sales_id = $id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 ?>
@@ -57,12 +57,12 @@ button{
         <h1>PEDIFORTE SHOPPING COMPLEX</h1>
         <h1>Edit Product</h1>
          <form action="process.php" method="POST">
-                <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
+                <input type="hidden" name="sales_id" value="<?php echo $row['sales_id']; ?>">
                 <input type="text" name="product_name" id="productname" value="<?php echo $row['product_name']; ?>">
                 <input type="text" name="product_quantity" id="productquantity" value=" <?php echo $row['product_quantity']; ?>">
                 <input type="text" name="product_amount" id="productamount" value=" <?php echo $row['product_amount']; ?>">
-                <input type="hidden" name="edit">
-                <button type="submit">Edit Product</button>
+                <input type="hidden" name="editsales">
+                <button type="submit">Edit Sale</button>
             </form>
             <?php  ?>
     </div>

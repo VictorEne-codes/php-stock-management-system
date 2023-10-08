@@ -1,8 +1,18 @@
 <?php
 require_once "process.php";
-$query = "SELECT * from reg_form";
+// if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+//     echo "logged in";
+//     exit;
+// }
+$user_id = $_SESSION['id'];
+// if (!$user_id) {
+//     echo "User ID not found in the session.";
+//     exit;
+// } else{
+$query = "SELECT * from reg_form WHERE user_id = $user_id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,10 +28,17 @@ $row = mysqli_fetch_assoc($result);
     ?>
     <div class="right-side">
         <h1>PEDIFORTE SHOPPING COMPLEX</h1>
-        <h2>Welcome <?php echo $row['username']; ?> </h2>
-        <p>Full Name: <?php echo $row['lastname'] . " " . $row['firstname']; ?> </p>
-        <p>Email: <?php echo $row['email']; ?></p>
-        <p>Phone Number: <?php echo $row['phone']; ?></p>
+        <?php
+        // if (mysqli_num_rows($result) > 1) {
+        //     while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<h2>Welcome " . $row['username'] . "</h2>";
+                    echo "<p>Full Name: " . $row['lastname'] . " " . $row['firstname'] . "</p>";
+                    echo "<p>Email: " . $row['email'] . "</p>";
+                    echo "<p>Phone Number: " . $row['phone'] . "</p>";
+        //     } 
+        // }
+        ?>
+        
     </div>
     
 </body>
