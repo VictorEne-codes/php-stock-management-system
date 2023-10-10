@@ -19,13 +19,15 @@ $available_quantity = $row['product_quantity'];
 $new_quantity = $available_quantity - $product_quantity;
 $query = "UPDATE products SET product_quantity = $new_quantity WHERE product_id = $id LIMIT 1";
 if (mysqli_query($conn, $query)) {
-echo "Product sold successfully!";
+// echo "Product sold successfully!";
+header("Location: products.php?salessuccess=1");
+
 }
 $insert_query = "INSERT INTO sales (product_name, product_quantity, product_amount) VALUES ('$product_name', $product_quantity, $product_amount)";
 if (mysqli_query($conn, $insert_query)) {
     $msg_id = mysqli_insert_id($conn);
-    echo "sold sucessfully";
-    // header("Location: products.php?editsuccess=1");
+    // echo "sold sucessfully";
+    header("Location: products.php?salessuccess=1");
 } else {
     echo "Error: " . mysqli_error($conn);
 }
